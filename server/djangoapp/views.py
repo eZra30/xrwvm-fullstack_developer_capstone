@@ -9,10 +9,10 @@ from .models import CarMake, CarModel
 from .restapis import get_request, analyze_review_sentiments, post_review
 
 # Unused imports (commented out)
-# from django.http import HttpResponseRedirect, HttpResponse
-# from django.shortcuts import get_object_or_404, render, redirect
-# from django.contrib import messages
-# from datetime import datetime
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib import messages
+from datetime import datetime
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
