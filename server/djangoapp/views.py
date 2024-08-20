@@ -53,9 +53,14 @@ def registration(request):
 
     try:
         User.objects.get(username=username)
-        return JsonResponse({"userName": username, "error": "Already Registered"})
+        return JsonResponse({"userName": username,
+                             "error": "Already Registered"})
     except User.DoesNotExist:
-        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, password=password, email=email)
+        user = User.objects.create_user(username=username,
+                                        first_name=first_name,
+                                        last_name=last_name,
+                                        password=password,
+                                        email=email)
         login(request, user)
         return JsonResponse({"userName": username, "status": "Authenticated"})
 
@@ -64,7 +69,8 @@ def get_cars(request):
     if CarMake.objects.count() == 0:
         initiate()
     car_models = CarModel.objects.select_related('car_make')
-    cars = [{"CarModel": car_model.name, "CarMake": car_model.car_make.name} for car_model in car_models]
+    cars = [{"CarModel": car_model.name,
+             "CarMake": car_model.car_make.name} for car_model in car_models]
     return JsonResponse({"CarModels": cars})
 
 
@@ -79,7 +85,9 @@ def get_dealer_reviews(request, dealer_id):
         endpoint = f"/fetchReviews/dealer/{dealer_id}"
         reviews = get_request(endpoint)
         for review_detail in reviews:
-            sentiment_response = analyze_review_sentiments(review_detail['review'])
+            sentiment_response = analyze_review_sentiments(
+                                                            review_detail['review'
+                                                          ])
             review_detail['sentiment'] = sentiment_response['sentiment']
         return JsonResponse({"status": 200, "reviews": reviews})
     return JsonResponse({"status": 400, "message": "Bad Request"})
@@ -100,5 +108,6 @@ def add_review(request):
             post_review(data)
             return JsonResponse({"status": 200})
         except Exception:
-            return JsonResponse({"status": 401, "message": "Error in posting review"})
+            return JsonResponse({"status": 401,
+                                 "message": "Error in posting review"})
     return JsonResponse({"status": 403, "message": "Unauthorized"})
